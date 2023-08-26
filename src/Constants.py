@@ -11,6 +11,8 @@ from wpimath.trajectory import TrapezoidProfileRadians
 
 from rev import CANSparkMax
 
+from networktables import NetworkTablesInstance
+
 
 class NeoMotorConstants:
 	kFreeSpeedRpm = 5676
@@ -137,10 +139,11 @@ class OIConstants:
 
 
 class AutoConstants:
+	# Speed controls in autonomous so the robot doesn't kill itself it uncontrolled testing
 	kMaxSpeedMetersPerSecond = 3
 	kMaxAccelerationMetersPerSecondSquared = 3
 	kMaxAngularSpeedRadiansPerSecond = math.pi
-	kMaxAngularSpeedRadiansPerSecondSquared = math.pi
+	kMaxAngularSpeedRadiansPerSecondSquared = math.pi ^ 2
 
 	kPXController = 1
 	kPYController = 1
@@ -155,19 +158,39 @@ class ArmConstants:
 	kSensorCountPerRevolution = 2048
 	kDefaultMaxFowardRotation = 250 # Outward
 	kMaxReverseRotation = 0; # Inward, starts fully inward so it starts in pos 0
-	kDefaultMaxFowardRotationCount = kDefaultMaxFowardRotation*kSensorCountPerRevolution;
-	kReverseRotationCount = kMaxReverseRotation*kSensorCountPerRevolution;
+	kDefaultMaxFowardRotationCount = kDefaultMaxFowardRotation * kSensorCountPerRevolution;
+	"""Maximum motor rotation. May change dependant on design"""
+	kReverseRotationCount = kMaxReverseRotation * kSensorCountPerRevolution;
 	kArmFalconID = 4;
+	"""The Falcon ID which belongs to the Arm. Depends on electrical setup (I think... idk I'm not in electrical)"""
 	kLimitSwitchPort = 2;
 
 	kP = 0.06277;
+	"""PID variable: P stands for Proportional"""
 	kI = 0;
+	"""PID variable: I stands for Integral"""
 	kD = 0;
+	"""PID variable: D stands for Derivative"""
 	kF = 0.049286;
+	"""PID variable: The F component is a (experimentally determined) value that is added to the output"""
 	kIZone = 0;
 
 	kPeakOutput = 0.5;
 	kStallCurrent = 20;
+	"""(unsure) The motor current the arm will stall at (won't move)"""
+
+class NetworkTablesConstants:
+	DEBUG = True;
+	kNetworkTableInstance = NetworkTablesInstance.getDefault()
+	kElevatorTable = kNetworkTableInstance.getTable("Elevator")
+	kArmTable = kNetworkTableInstance.getTable("Arm")
+	kDriveTable = kNetworkTableInstance.getTable("Drive")
+	kPneumaticTable = kNetworkTableInstance.getTable("Pneumatic")
+
+
+
+
+
 """
 Can IDs:
 	0: PDP
