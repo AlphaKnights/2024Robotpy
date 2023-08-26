@@ -10,8 +10,6 @@ from ctre import ControlMode
 from ctre import NeutralMode
 from ctre import TalonSRX
 from ctre import TalonSRXConfiguration
-# Other
-import networktables as nt
 # Robot Files
 from Constants import ArmConstants, NetworkTablesConstants
 
@@ -117,14 +115,14 @@ class ArmSubsystem(SubsystemBase):
 		:param elvPos: No fucking clue
 		"""
 		# Restores the sensor position to the desired position with minimal delay and overshoot by...
-		new_power_output = self.ArmPID.calculate(self.ArmFalcon.getSelectedSensorPosition(), 
+		newPowerOutput = self.ArmPID.calculate(self.ArmFalcon.getSelectedSensorPosition(), 
 							p_position * ArmConstants.kF)
 		# (making sure the power output isn't OOB so-to-speak)
-		new_power_output = MathUtil.clamp(new_power_output,
+		newPowerOutput = MathUtil.clamp(newPowerOutput,
 											-ArmConstants.kPeakOutput,
 											ArmConstants.kPeakOutput)
 		# increasing/decreasing the power output of the motor
-		self.setPower(new_power_output, elvPos)
+		self.setPower(newPowerOutput, elvPos)
 	
 	
 	def getPosition(self):

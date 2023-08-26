@@ -61,6 +61,8 @@ class DriveConstants:
 	
 
 	kGyroReversed = False
+
+
 class ElevatorConstants:
     kSensorCountPerRevolution = 2048
     kDefaultMaxFowardVerticalRotation = 135
@@ -82,6 +84,7 @@ class ElevatorConstants:
     kElevatorLowPosition = 25
     kElevatorMidPosition = 50
     kElevatorHighPosition = 100
+
 
 class ModuleConstants:
 	# MAXSwerve modules can either have 12T, 13T, or 14T gearing (more teeth = more faster)
@@ -154,6 +157,7 @@ class AutoConstants:
 		kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared
 	)
 
+
 class ArmConstants:
 	kSensorCountPerRevolution = 2048
 	kDefaultMaxFowardRotation = 250 # Outward
@@ -178,6 +182,7 @@ class ArmConstants:
 	kPeakOutput = 0.5;
 	kStallCurrent = 20;
 	"""(unsure) The motor current the arm will stall at (won't move)"""
+
 
 class NetworkTablesConstants:
 	DEBUG = True;

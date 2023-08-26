@@ -1,60 +1,33 @@
-
-"""
-Recources:
-
-[WPILib API Docs](https://robotpy.readthedocs.io/projects/wpilib/en/stable/wpilib.html)
-[CommandsV2 API Docs](https://robotpy.readthedocs.io/projects/commands-v2/en/stable/api.html#command-v2-api)
-[Getting Started](https://robotpy.readthedocs.io/en/stable/guide/anatomy.html#create-your-robot-code)
-
-[Example Robot (Arm, CommandV2)](https://github.com/robotpy/examples/tree/main/commands-v2/armbot)
-[UNOFFICIAL Swerve Example](https://github.com/Aurobots7456/SwerveDrive)
-[Apriltag Package](https://robotpy.readthedocs.io/projects/apriltag/en/stable/robotpy_apriltag.html)
-[Swerve Template JAVA](https://github.com/REVrobotics/MAXSwerve-Java-Template)
-"""
-
 import wpilib
 import wpilib.drive
 import commands2
 from RobotContainer import RobotContainer
 
-""" UNUSED LIBRARIES
-import wpimath
-import wpiutil
-import robotpy
-import pyfrc
-import ctre
-import navx
-import rev
-import pathplannerlib as ppl
-import photonvision as phv
-from Constants import NeoMotorConstants, DriveConstants, ModuleConstants, OIConstants, AutoConstants
-"""
-
 
 class Robot(commands2.TimedCommandRobot):
-    def robotInit(self):
-        # Instantiating our RobotContainer will perform all our button bindings, and put our
-        # autonomous selection on the dashboard.
-        self.container = RobotContainer()
-        self.autonomousCommand = None
+	def robotInit(self):
+		# Instantiating our RobotContainer will perform all our button bindings, and put our
+		# autonomous selection on the dashboard.
+		self.container = RobotContainer()
+		self.autonomousCommand = None
 
-    def autonomousInit(self) -> None:
-        self.autonomousCommand = self.container.getAutonomousCommand()
+	def autonomousInit(self) -> None:
+		self.autonomousCommand = self.container.getAutonomousCommand()
 
-        if self.autonomousCommand:
-            self.autonomousCommand.schedule()
+		if self.autonomousCommand:
+			self.autonomousCommand.schedule()
 
-    def teleopInit(self) -> None:
-        if self.autonomousCommand:
-            self.autonomousCommand.cancel()
+	def teleopInit(self) -> None:
+		if self.autonomousCommand:
+			self.autonomousCommand.cancel()
 
-    def testInit(self) -> None:
-        commands2.CommandScheduler.getInstance().cancelAll()
+	def testInit(self) -> None:
+		commands2.CommandScheduler.getInstance().cancelAll()
 
 
 if __name__ == "__main__":
-    wpilib.run(Robot)
-    
+	wpilib.run(Robot)
+
 
 
 """
