@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
 
 
-"""
+""" I have no idea what this is for
 class Robot(commands2.TimedCommandRobot):
 
 	def robotInit(self):

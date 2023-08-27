@@ -11,7 +11,7 @@ from ctre import NeutralMode
 from ctre import TalonSRX
 from ctre import TalonSRXConfiguration
 # Robot Files
-from Constants import ArmConstants, NetworkTablesConstants
+from Constants import ArmConstants, NetworkTableConstants
 
 class ArmSubsystem(SubsystemBase):
 	# If you are familiar with Java, this is (essentially) a constructor.
@@ -24,17 +24,17 @@ class ArmSubsystem(SubsystemBase):
 
 		self.m_maxArmPosition = ArmConstants.kDefaultMaxFowardRotationCount
 		# Get NT PID values
-		self.armEntryP = NetworkTablesConstants.kArmTable.getEntry("P")
-		self.armEntryI = NetworkTablesConstants.kArmTable.getEntry("I")
-		self.armEntryD = NetworkTablesConstants.kArmTable.getEntry("D")
+		self.armEntryP = NetworkTableConstants.kArmTable.getEntry("P")
+		self.armEntryI = NetworkTableConstants.kArmTable.getEntry("I")
+		self.armEntryD = NetworkTableConstants.kArmTable.getEntry("D")
 		# Setting other values (need to ask what these mean)
-		self.armFwdLimitEntry = NetworkTablesConstants.kArmTable.getEntry("FwdLimit")
-		self.armRvsLimitEntry = NetworkTablesConstants.kArmTable.getEntry("RvsLimit")
-		self.armPositionEntry = NetworkTablesConstants.kArmTable.getEntry("Position")
-		self.armPowerEntry = NetworkTablesConstants.kArmTable.getEntry("Power")
-		self.ingoreArmFwdLimitEntry = NetworkTablesConstants.kArmTable.getEntry("IngoreFwdLimit")
-		self.powerLimitEntry = NetworkTablesConstants.kArmTable.getEntry("PowerLimit")
-		self.ignoreLimitEntry = NetworkTablesConstants.kArmTable.getEntry("IgnoreLimit")
+		self.armFwdLimitEntry = NetworkTableConstants.kArmTable.getEntry("FwdLimit")
+		self.armRvsLimitEntry = NetworkTableConstants.kArmTable.getEntry("RvsLimit")
+		self.armPositionEntry = NetworkTableConstants.kArmTable.getEntry("Position")
+		self.armPowerEntry = NetworkTableConstants.kArmTable.getEntry("Power")
+		self.ingoreArmFwdLimitEntry = NetworkTableConstants.kArmTable.getEntry("IngoreFwdLimit")
+		self.powerLimitEntry = NetworkTableConstants.kArmTable.getEntry("PowerLimit")
+		self.ignoreLimitEntry = NetworkTableConstants.kArmTable.getEntry("IgnoreLimit")
 		# Setting NT defualts using constants (mostly)
 		self.armEntryP.setDefaultDouble(ArmConstants.kP)
 		self.armEntryI.setDefaultDouble(ArmConstants.kI)
@@ -62,10 +62,10 @@ class ArmSubsystem(SubsystemBase):
 		self.ArmFalcon.setSelectedSensorPosition(ArmConstants.kReverseRotationCount)
 	
 
-	def setPower(self, p_power, elvPos): # What the fuck is elvPos
+	def setPower(self, power, elvPos): # What the fuck is elvPos
 		"""
 		Set the power output for Falcon-controlled motors in the arm
-		:param p_power: 
+		:param power: The current power (amps) being sent to the motor
 		:param elvPos: No fucking clue
 		"""
 		self.armRvsLimitEntry.setBoolean(self.ReverseLimiter.get())
@@ -83,8 +83,8 @@ class ArmSubsystem(SubsystemBase):
 			if (not self.ReverseLimiter.get()):
 				self.ArmFalcon.setSelectedSensorPosition(ArmConstants.kReverseRotationCount)
 
-				# Set the Falcom power output to p_power if is more than 0, otherwise set to 0
-				self.ArmFalcon.set(ControlMode.PercentOutput, 0 if p_power > 0 else p_power)
+				# Set the Falcom power output to 'power' if is more than 0, otherwise set to 0
+				self.ArmFalcon.set(ControlMode.PercentOutput, 0 if power > 0 else power)
 
 		# Stator current = output current
 		# If the robot will not Ignore the Arm's Forward Limit, 
@@ -94,29 +94,29 @@ class ArmSubsystem(SubsystemBase):
 				elvPos > (80*2048)):
 			
 			# p_power < 0 is repetative, find solution
-			self.ArmFalcon.set(ControlMode.PercentOutput, 0 if p_power < 0 else p_power)
-			if (p_power < 0):
+			self.ArmFalcon.set(ControlMode.PercentOutput, 0 if power < 0 else power)
+			if (power < 0):
 				self.m_maxArmPosition = self.ArmFalcon.getSelectedSensorPosition()
 
 		elif (elvPos > (80*2048) and 
 				self.ArmFalcon.getSelectedSensorPosition() < (8*2048)):
 			
-			self.ArmFalcon.set(ControlMode.PercentOutput, p_power)
+			self.ArmFalcon.set(ControlMode.PercentOutput, power)
 		elif (elvPos > (120*2048)):
-			self.ArmFalcon.set(ControlMode.PercentOutput, p_power)
+			self.ArmFalcon.set(ControlMode.PercentOutput, power)
 		else:
 			self.ArmFalcon.set(ControlMode.PercentOutput, 0)
 
 
-	def goToPosition(self, p_position, elvPos):
+	def goToPosition(self, x_position, elvPos):
 		"""
 		Move the arm to a new location
-		:param p_position: Current motor sensor position
+		:param x_position: Current motor sensor position
 		:param elvPos: No fucking clue
 		"""
 		# Restores the sensor position to the desired position with minimal delay and overshoot by...
 		newPowerOutput = self.ArmPID.calculate(self.ArmFalcon.getSelectedSensorPosition(), 
-							p_position * ArmConstants.kF)
+							x_position * ArmConstants.kF)
 		# (making sure the power output isn't OOB so-to-speak)
 		newPowerOutput = MathUtil.clamp(newPowerOutput,
 											-ArmConstants.kPeakOutput,

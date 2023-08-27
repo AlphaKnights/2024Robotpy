@@ -13,6 +13,8 @@ from rev import CANSparkMax
 
 from networktables import NetworkTablesInstance
 
+from enum import Enum
+
 
 class NeoMotorConstants:
 	kFreeSpeedRpm = 5676
@@ -184,7 +186,7 @@ class ArmConstants:
 	"""(unsure) The motor current the arm will stall at (won't move)"""
 
 
-class NetworkTablesConstants:
+class NetworkTableConstants:
 	DEBUG = True;
 	kNetworkTableInstance = NetworkTablesInstance.getDefault()
 	kElevatorTable = kNetworkTableInstance.getTable("Elevator")
@@ -193,7 +195,21 @@ class NetworkTablesConstants:
 	kPneumaticTable = kNetworkTableInstance.getTable("Pneumatic")
 
 
+class PneumaticConstants:
+	kRevPneumaticPort = 2;
+	kClawFwdPort = 0;
+	kClawRevPort = 1;
+	kWristFwdPort = 2;
+	kWristRevPort = 3;
+	kClawMinPressure = 80;
+	kClawMaxPressure = 90;
+	kAnalogSensorPort = 0;
 
+
+class PistonState(Enum):
+	OPEN = "OPEN"
+	CLOSED = "CLOSED"
+	OFF = "OFF"
 
 
 """

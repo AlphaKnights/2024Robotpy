@@ -16,10 +16,27 @@ This is the FRC 6695 Robot code for the 2024 competitions season.
 - Every class, function, and operation should have on function.
   - Good Example:<br><img src="image/../images/functionality_example.png">
   - Bad Example:<br><img src="image/../images/functionality_bad_example.png">
+- Try not to `import __lib__ as ` a nickname too often. Unless it is like `networktables` which is absurdly long and `nt` can't be confused with anything.
 ### Naming Schema:
 - Variables: camelCase
     - `m_` prefix for measurements
-    - `p_` prefix for positions
+    - `x_` prefix for positions (lik physics)
+    - `p_` prefix for pressure
     - `k` prefix for (???)
 - Functions: camelCase
 - Classes: PascalCase
+
+## Recources
+[WPILib API Docs](https://robotpy.readthedocs.io/projects/wpilib/en/stable/wpilib.html)
+
+[CommandsV2 API Docs](https://robotpy.readthedocs.io/projects/commands-v2/en/stable/api.html#command-v2-api)
+
+[Robotpy Getting Started](https://robotpy.readthedocs.io/en/stable/guide/anatomy.html#create-your-robot-code)
+
+[Example Robot (Arm, CommandV2)](https://github.com/robotpy/examples/tree/main/commands-v2/armbot)
+
+[UNOFFICIAL Swerve Example](https://github.com/Aurobots7456/SwerveDrive)
+
+[Apriltag Package](https://robotpy.readthedocs.io/projects/apriltag/en/stable/robotpy_apriltag.html)
+
+[Swerve Template JAVA](https://github.com/REVrobotics/MAXSwerve-Java-Template)
