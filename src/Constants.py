@@ -11,7 +11,7 @@ from wpimath.trajectory import TrapezoidProfileRadians
 
 from rev import CANSparkMax
 
-from networktables import NetworkTablesInstance
+from networktables import NetworkTables
 
 from enum import Enum
 
@@ -188,11 +188,11 @@ class ArmConstants:
 
 class NetworkTableConstants:
 	DEBUG = True;
-	kNetworkTableInstance = NetworkTablesInstance.getDefault()
-	kElevatorTable = kNetworkTableInstance.getTable("Elevator")
-	kArmTable = kNetworkTableInstance.getTable("Arm")
-	kDriveTable = kNetworkTableInstance.getTable("Drive")
-	kPneumaticTable = kNetworkTableInstance.getTable("Pneumatic")
+	smartd = NetworkTables.getTable("SmartDashboard")
+	kElevatorTable = smartd.getTable("Elevator")
+	kArmTable = smartd.getTable("Arm")
+	kDriveTable = smartd.getTable("Drive")
+	kPneumaticTable = smartd.getTable("Pneumatic")
 
 
 class PneumaticConstants:
